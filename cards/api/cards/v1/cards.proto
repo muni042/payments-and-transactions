@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package cards.v1;
+
+option go_package = "cards/api/cards/v1;v1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// =======================
+// Service
+// =======================
+service CardsService {
+
+  rpc CreateCard(CreateCardRequest) returns (CardResponse) {
+    option (google.api.http) = {
+      post: "/v1/cards"
+      body: "*"
+    };
+  }
+
+  rpc GetCard(GetCardRequest) returns (CardResponse) {
+    option (google.api.http) = {
+      get: "/v1/cards/{card_id}"
+    };
+  }
+
+  rpc UpdateCard(UpdateCardRequest) returns (CardResponse) {
+    option (google.api.http) = {
+      put: "/v1/cards/{card_id}"
+      body: "*"
+    };
+  }
+
+  rpc DeleteCard(GetCardRequest) returns (DeleteCardResponse) {
+    option (google.api.http) = {
+      delete: "/v1/cards/{card_id}"
+    };
+  }
+
+  //NEW: Verify PIN using account_id
+  rpc VerifyCardPin(VerifyCardPinRequest)
+      returns (VerifyCardPinResponse) {
+    option (google.api.http) = {
+      post: "/v1/cards/account/{account_id}/verify-pin"
+      body: "*"
+    };
+  }
+}
+
+// =======================
+// Messages (MUST be outside service)
+// =======================
+
+message CreateCardRequest {
+  int64 account_id = 1;
+  string card_number_hash = 2;
+  string card_type = 3;      // debit | credit | prepaid
+  string expiry_date = 4;    // YYYY-MM-DD
+  string daily_limit = 5;
+  string monthly_limit = 6;
+  string pin = 7;
+}
+
+message GetCardRequest {
+  int64 card_id = 1;
+}
+
+message UpdateCardRequest {
+  int64 card_id = 1;
+  string card_status = 2;    // active | blocked | expired
+  string daily_limit = 3;
+  string monthly_limit = 4;
+  int32 pin_attempts = 5;
+}
+
+message VerifyCardPinRequest {
+  int64 account_id = 1;
+  string pin = 2;
+}
+
+message VerifyCardPinResponse {
+  bool verified = 1;        // true = correct PIN, false = wrong PIN
+  string card_status = 2;   // active | blocked
+  int32 pin_attempts = 3;   // remaining or used attempts
+}
+
+message CardResponse {
+  int64 card_id = 1;
+  int64 account_id = 2;
+  string card_number_hash = 3;
+  string card_type = 4;
+  string card_status = 5;
+  string expiry_date = 6;
+  string daily_limit = 7;
+  string monthly_limit = 8;
+  int32 pin_attempts = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp last_used_at = 11;
+}
+
+message DeleteCardResponse {
+  string message = 1;
+  CardResponse card = 2;
+}

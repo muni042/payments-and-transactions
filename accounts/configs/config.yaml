@@ -1,0 +1,16 @@
+server:
+  http:
+    addr: 0.0.0.0:8100
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9100
+    timeout: 1s
+
+data:
+  database:
+    driver: postgres
+    source: host=localhost user=postgres password=Muni192431@ dbname=template1 port=5431 sslmode=disable
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s

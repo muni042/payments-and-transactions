@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package payments.v1;
+
+option go_package = "payments/api/payments/v1;v1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+
+// =======================
+// Payments Service
+// =======================
+service PaymentsService {
+
+  rpc CreatePayment(CreatePaymentRequest) returns (PaymentResponse) {
+    option (google.api.http) = {
+      post: "/v1/payments"
+      body: "*"
+    };
+  }
+
+  rpc GetPayment(GetPaymentRequest) returns (PaymentResponse) {
+    option (google.api.http) = {
+      get: "/v1/payments/{payment_id}"
+    };
+  }
+
+  rpc UpdatePayment(UpdatePaymentRequest) returns (PaymentResponse) {
+    option (google.api.http) = {
+      put: "/v1/payments/{payment_id}"
+      body: "*"
+    };
+  }
+
+  rpc DeletePayment(DeletePaymentRequest) returns (DeletePaymentResponse) {
+    option (google.api.http) = {
+      delete: "/v1/payments/{payment_id}"
+    };
+  }
+
+  rpc ListPayments(ListPaymentsRequest) returns (ListPaymentsResponse) {
+    option (google.api.http) = {
+      get: "/v1/payments"
+    };
+  }
+
+  rpc CheckPaymentExists(GetPaymentRequest) returns (CheckPaymentExistsResponse) {
+    option (google.api.http) = {
+      get: "/v1/payments/{payment_id}/exists"
+    };
+  }
+}
+
+
+// =======================
+// Requests
+// =======================
+
+// payment_id is auto-generated
+message CreatePaymentRequest {
+  int64 from_account_id = 1;
+  int64 to_account_id = 2;
+  string payment_type = 3;     // transfer, payment, topup
+  string payment_method = 4;   // card, bank_transfer, wallet
+  string amount = 5;           // DECIMAL(20,4)
+  string currency = 6;         // ISO-4217
+  google.protobuf.Timestamp scheduled_at = 7;
+  string pin = 8;
+}
+
+message GetPaymentRequest {
+  int64 payment_id = 1;
+}
+
+message UpdatePaymentRequest {
+  int64 payment_id = 1;
+  string status = 2;           // initiated, processing, completed, failed, reversed
+  google.protobuf.Timestamp processed_at = 3;
+}
+
+message DeletePaymentRequest {
+  int64 payment_id = 1;
+}
+
+message ListPaymentsRequest {
+  int64 page = 1;
+  int64 limit = 2;
+}
+
+
+// =======================
+// Responses
+// =======================
+
+message PaymentResponse {
+  int64 payment_id = 1;
+  int64 from_account_id = 2;
+  int64 to_account_id = 3;
+  string payment_type = 4;
+  string payment_method = 5;
+  string amount = 6;
+  string currency = 7;
+  string status = 8;
+  google.protobuf.Timestamp scheduled_at = 9;
+  google.protobuf.Timestamp processed_at = 10;
+  google.protobuf.Timestamp created_at = 11;
+}
+
+message ListPaymentsResponse {
+  repeated PaymentResponse payments = 1;
+  int64 total = 2;
+}
+
+message DeletePaymentResponse {
+  string message = 1;
+}
+
+message CheckPaymentExistsResponse {
+  bool exists = 1;
+}

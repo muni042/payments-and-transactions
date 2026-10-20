@@ -1,0 +1,200 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: CardsService API
+    description: |-
+        =======================
+         Service
+         =======================
+    version: 0.0.1
+paths:
+    /v1/cards:
+        post:
+            tags:
+                - CardsService
+            operationId: CardsService_CreateCard
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/cards.v1.CreateCardRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/cards.v1.CardResponse'
+    /v1/cards/account/{accountId}/verify-pin:
+        post:
+            tags:
+                - CardsService
+            description: 'NEW: Verify PIN using account_id'
+            operationId: CardsService_VerifyCardPin
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/cards.v1.VerifyCardPinRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/cards.v1.VerifyCardPinResponse'
+    /v1/cards/{cardId}:
+        get:
+            tags:
+                - CardsService
+            operationId: CardsService_GetCard
+            parameters:
+                - name: cardId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/cards.v1.CardResponse'
+        put:
+            tags:
+                - CardsService
+            operationId: CardsService_UpdateCard
+            parameters:
+                - name: cardId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/cards.v1.UpdateCardRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/cards.v1.CardResponse'
+        delete:
+            tags:
+                - CardsService
+            operationId: CardsService_DeleteCard
+            parameters:
+                - name: cardId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/cards.v1.DeleteCardResponse'
+components:
+    schemas:
+        cards.v1.CardResponse:
+            type: object
+            properties:
+                cardId:
+                    type: string
+                accountId:
+                    type: string
+                cardNumberHash:
+                    type: string
+                cardType:
+                    type: string
+                cardStatus:
+                    type: string
+                expiryDate:
+                    type: string
+                dailyLimit:
+                    type: string
+                monthlyLimit:
+                    type: string
+                pinAttempts:
+                    type: integer
+                    format: int32
+                createdAt:
+                    type: string
+                    format: date-time
+                lastUsedAt:
+                    type: string
+                    format: date-time
+        cards.v1.CreateCardRequest:
+            type: object
+            properties:
+                accountId:
+                    type: string
+                cardNumberHash:
+                    type: string
+                cardType:
+                    type: string
+                expiryDate:
+                    type: string
+                dailyLimit:
+                    type: string
+                monthlyLimit:
+                    type: string
+                pin:
+                    type: string
+        cards.v1.DeleteCardResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+                card:
+                    $ref: '#/components/schemas/cards.v1.CardResponse'
+        cards.v1.UpdateCardRequest:
+            type: object
+            properties:
+                cardId:
+                    type: string
+                cardStatus:
+                    type: string
+                dailyLimit:
+                    type: string
+                monthlyLimit:
+                    type: string
+                pinAttempts:
+                    type: integer
+                    format: int32
+        cards.v1.VerifyCardPinRequest:
+            type: object
+            properties:
+                accountId:
+                    type: string
+                pin:
+                    type: string
+        cards.v1.VerifyCardPinResponse:
+            type: object
+            properties:
+                verified:
+                    type: boolean
+                cardStatus:
+                    type: string
+                pinAttempts:
+                    type: integer
+                    format: int32
+tags:
+    - name: CardsService

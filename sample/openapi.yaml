@@ -1,0 +1,179 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: CustomersService API
+    version: 0.0.1
+paths:
+    /v1/customers:
+        post:
+            tags:
+                - CustomersService
+            operationId: CustomersService_CreateCustomer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/customers.v1.CreateCustomerRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/customers.v1.CustomerResponse'
+    /v1/customers/{customerId}:
+        get:
+            tags:
+                - CustomersService
+            operationId: CustomersService_GetCustomer
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/customers.v1.CustomerResponse'
+        put:
+            tags:
+                - CustomersService
+            operationId: CustomersService_UpdateCustomer
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/customers.v1.UpdateCustomerRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/customers.v1.CustomerResponse'
+        delete:
+            tags:
+                - CustomersService
+            operationId: CustomersService_DeleteCustomer
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/customers.v1.DeleteCustomerResponse'
+    /v1/customers/{customerId}/exists:
+        get:
+            tags:
+                - CustomersService
+            operationId: CustomersService_CheckCustomerExists
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/customers.v1.CheckCustomerExistsResponse'
+components:
+    schemas:
+        customers.v1.CheckCustomerExistsResponse:
+            type: object
+            properties:
+                exists:
+                    type: boolean
+        customers.v1.CreateCustomerRequest:
+            type: object
+            properties:
+                customerNumber:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                dateOfBirth:
+                    type: string
+                status:
+                    type: string
+                kycStatus:
+                    type: string
+        customers.v1.CustomerResponse:
+            type: object
+            properties:
+                customerId:
+                    type: string
+                customerNumber:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                dateOfBirth:
+                    type: string
+                status:
+                    type: string
+                kycStatus:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+        customers.v1.DeleteCustomerResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+        customers.v1.UpdateCustomerRequest:
+            type: object
+            properties:
+                customerId:
+                    type: string
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                status:
+                    type: string
+                kycStatus:
+                    type: string
+tags:
+    - name: CustomersService

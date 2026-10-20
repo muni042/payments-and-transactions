@@ -1,0 +1,16 @@
+server:
+  http:
+    addr: 0.0.0.0:8200
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9200
+    timeout: 1s
+data:
+  database:
+    driver: postgres
+    source: postgres://postgres:Muni192431%40@localhost:5431/template1?sslmode=disable
+
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s

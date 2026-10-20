@@ -1,0 +1,354 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: AccountsService API
+    version: 0.0.1
+paths:
+    /v1/accounts:
+        get:
+            tags:
+                - AccountsService
+            operationId: AccountsService_ListAccount
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListAccountResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - AccountsService
+            operationId: AccountsService_CreateAccount
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AccountResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{accountId}:
+        get:
+            tags:
+                - AccountsService
+            operationId: AccountsService_GetAccount
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AccountResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - AccountsService
+            operationId: AccountsService_UpdateAccount
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AccountResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - AccountsService
+            operationId: AccountsService_DeleteAccount
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteAccountResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{accountId}/credit:
+        post:
+            tags:
+                - AccountsService
+            operationId: AccountsService_CreditAccount
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreditAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OperationResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{accountId}/debit:
+        post:
+            tags:
+                - AccountsService
+            operationId: AccountsService_DebitAccount
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DebitAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OperationResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{accountId}/exists:
+        get:
+            tags:
+                - AccountsService
+            operationId: AccountsService_CheckAccountExists
+            parameters:
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CheckAccountExistsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        AccountResponse:
+            type: object
+            properties:
+                accountId:
+                    type: string
+                customerId:
+                    type: string
+                accountNumber:
+                    type: string
+                accountType:
+                    type: string
+                currency:
+                    type: string
+                status:
+                    type: string
+                availableBalance:
+                    type: string
+                pendingBalance:
+                    type: string
+                creditLimit:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                lastTransactionAt:
+                    type: string
+                    format: date-time
+        CheckAccountExistsResponse:
+            type: object
+            properties:
+                exists:
+                    type: boolean
+        CreateAccountRequest:
+            type: object
+            properties:
+                customerId:
+                    type: string
+                accountNumber:
+                    type: string
+                accountType:
+                    type: string
+                currency:
+                    type: string
+                status:
+                    type: string
+                availableBalance:
+                    type: string
+                pendingBalance:
+                    type: string
+                creditLimit:
+                    type: string
+        CreditAccountRequest:
+            type: object
+            properties:
+                accountId:
+                    type: string
+                amount:
+                    type: string
+        DebitAccountRequest:
+            type: object
+            properties:
+                accountId:
+                    type: string
+                amount:
+                    type: string
+        DeleteAccountResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListAccountResponse:
+            type: object
+            properties:
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountResponse'
+                total:
+                    type: string
+        OperationResponse:
+            type: object
+            properties:
+                success:
+                    type: boolean
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UpdateAccountRequest:
+            type: object
+            properties:
+                accountId:
+                    type: string
+                customerId:
+                    type: string
+                accountNumber:
+                    type: string
+                accountType:
+                    type: string
+                currency:
+                    type: string
+                status:
+                    type: string
+                availableBalance:
+                    type: string
+                pendingBalance:
+                    type: string
+                creditLimit:
+                    type: string
+tags:
+    - name: AccountsService
